@@ -61,8 +61,13 @@ io.on('connection', function (socket) {
         //Avisa aos demais jogadores sobre o movimento do jogador atual
         var data = {
             id: current_player.id,
-            posic: pack["position"],
-            rot: pack["rotation"]
+            px: pack["px"],
+            py: pack["py"],
+            pz: pack["pz"],
+            rx: pack["rx"],
+            ry: pack["ry"],
+            rz: pack["rz"],
+            rw: pack["rw"],
         }
 
         socket.broadcast.emit("PlayerMove", data);

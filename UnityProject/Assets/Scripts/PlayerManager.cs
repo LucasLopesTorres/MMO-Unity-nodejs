@@ -23,7 +23,8 @@ public class PlayerManager : MonoBehaviour
             instance = this;
     }
 
-    private void Start() {
+    private void Start()
+    {
         mainCamera = Camera.main;
     }
 
@@ -52,7 +53,7 @@ public class PlayerManager : MonoBehaviour
     //Use para localizar um player especifico
     PlayerInfo SearchPlayer(string playerId)
     {
-
+        Debug.Log("SearchPlayer");
         PlayerInfo result = null;
 
         foreach (PlayerInfo playerInfo in allPlayers)
@@ -60,11 +61,10 @@ public class PlayerManager : MonoBehaviour
             if (playerInfo.PlayerId == playerId)
             {
 
+                Debug.Log("Jogador localizado: " + playerInfo.PlayerName);
                 result = playerInfo;
-                return result;
             }
         }
-
         return result;
     }
 
@@ -87,12 +87,26 @@ public class PlayerManager : MonoBehaviour
 
         if (player != null)
         {
-            Vector3 posi = ConverJsonVector.JsonToVector3(infos["postion"]);
-            Vector4 rot = ConverJsonVector.JsonToVector4(infos["rotation"]);
-
+            /*Vector3 posi = ConverJsonVector.JsonToVector3(infos["posic"]);
+            Vector4 rot = ConverJsonVector.JsonToVector4(infos["rot"]);
             Quaternion quaternion = new Quaternion(rot.x, rot.y, rot.z, rot.w);
 
-            player.UpdatePlayerPosic_Rot(posi, quaternion);
+            player.UpdatePlayerPosic_Rot(posi, quaternion);*/
+
+            float x = float.Parse(infos["px"]);
+            float y = float.Parse(infos["py"]);
+            float z = float.Parse(infos["pz"]);
+
+            Vector3 newPosition = new Vector3(x, y, z);
+
+            float qx = float.Parse(infos["rx"]);
+            float qy = float.Parse(infos["ry"]);
+            float qz = float.Parse(infos["rz"]);
+            float qw = float.Parse(infos["rw"]);
+
+            Quaternion newQuaternion = new Quaternion(qx, qy, qz, qw);
+            player.UpdatePlayerPosic_Rot(newPosition, newQuaternion);
+            Debug.Log("SomePlayerMove: posic>" + newPosition);
         }
     }
 
@@ -144,7 +158,7 @@ public class PlayerManager : MonoBehaviour
         //Digita a mensagem no balão de msg do player 
         PlayerController playerController = LocalPlayer.gameObject.GetComponent<PlayerController>();
         playerController.Speach(msg);
-        
+
         //Digita a mensagem no chat
         string playerName = LocalPlayer.PlayerName;
         ChatSystem.instance.MsgReceived(msg, playerName);

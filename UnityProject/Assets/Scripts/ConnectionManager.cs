@@ -123,8 +123,16 @@ public class ConnectionManager : MonoBehaviour
     {
         Dictionary<string, string> info = new Dictionary<string, string>();
 
-        info["position"] = posic.x + "," + posic.y + "," + posic.z;
-        info["rotation"] = rot.x + "," + rot.y + "," + rot.z + "," + rot.w;
+        //Position dados
+        info["px"] = posic.x.ToString();
+        info["py"] = posic.y.ToString();
+        info["pz"] = posic.z.ToString();
+
+        //Rotation dados
+        info["rx"] = rot.x.ToString();
+        info["ry"] = rot.y.ToString();
+        info["rz"] = rot.z.ToString();
+        info["rw"] = rot.w.ToString();
 
         socket.Emit("Move", new JSONObject(info));
     }
